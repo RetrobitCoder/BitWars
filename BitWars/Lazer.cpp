@@ -1,9 +1,11 @@
 #include "Lazer.h"
 
-Lazer::Lazer(byte x, byte y)
+Lazer::Lazer(byte x, byte y, byte dir)
 {
   this->x1 = x;
   this->y1 = y;
+  this->len = dir * this->len;
+  this->movement = dir * this->movement;
   this->x2 = x + this->len;
   this->y2 = y;
 }

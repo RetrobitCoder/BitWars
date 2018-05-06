@@ -7,7 +7,7 @@ class Lazer
 {
   public:
     Lazer(){};
-    Lazer(byte x, byte y);
+    Lazer(byte x, byte y, byte dir);
     //get x1 location
     byte getX1();
     //get x2 location

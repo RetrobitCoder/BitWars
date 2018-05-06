@@ -2,6 +2,7 @@
 #include "Round.h"
 #include "Player.h"
 #include "Lazer.h"
+#include "Enemy.h"
 
 enum class GameState : unsigned char
 {
@@ -12,6 +13,7 @@ Arduboy2 ab;
 Round rond;
 Player player;
 Lazer* lazer = NULL;
+//Enemy enemies[3] = {NULL, NULL, NULL};
 GameState gameState = GameState::Play;
 byte thrust = 2;
 String ops[5] = {"&", "|", "^", "<<", ">>"};
@@ -90,7 +92,7 @@ void gameLoop()
   if(ab.pressed(UP_BUTTON)) player.setY(player.getY() - thrust);
   else if(ab.pressed(DOWN_BUTTON)) player.setY(player.getY() + thrust);
   else if(ab.justPressed(LEFT_BUTTON)) gameState = GameState::Pause;
-  else if(ab.justPressed(A_BUTTON)) if(lazer == NULL) lazer = new Lazer(0,player.getY() + 3);
+  else if(ab.justPressed(A_BUTTON)) if(lazer == NULL) lazer = new Lazer(0,player.getY() + 3,1);
   if(lazer != NULL) lazer->moveLazer();
   collisionCheck();
 }
