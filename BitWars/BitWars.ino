@@ -65,7 +65,17 @@ void gameLoop()
   draw();
   if(ab.pressed(UP_BUTTON)) player.setY(player.getY() - thrust);
   else if(ab.pressed(DOWN_BUTTON)) player.setY(player.getY() + thrust);
+  else if(ab.justPressed(LEFT_BUTTON)) gameState = GameState::Pause;
   collisionCheck();
+}
+
+void pauseScreen()
+{
+  draw();
+  ab.drawRect(WIDTH/2 - 20, HEIGHT/2 - 5, 40, 12);
+  ab.setCursor(WIDTH/2 - 18, HEIGHT/2 - 3);
+  ab.print("Paused");
+  if(ab.justPressed(LEFT_BUTTON)) gameState = GameState::Play;
 }
 
 void loop() 
@@ -81,6 +91,7 @@ void loop()
       gameLoop();
       break;
     case GameState::Pause:
+      pauseScreen();
       break;
     case GameState::GameOver:
       break;
