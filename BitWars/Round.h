@@ -9,13 +9,13 @@ class Round
     Round(){}
 
     //get round problem
-    String get_problem();
+    String getProblem();
     //create round problem
-    void create_problem(byte a, byte b, String op);
+    void createProblem(byte a, byte b, String op);
     //check if user answer is right
-    bool check_answer(byte guess);
+    bool checkAnswer(byte guess);
     //get the round number
-    long get_round_number();
+    long getRoundNumber();
     
   private:
     String problem;

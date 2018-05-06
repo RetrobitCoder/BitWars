@@ -1,42 +1,89 @@
 #include <Arduboy2.h>
 #include "Round.h"
+#include "Player.h"
+
+enum class GameState : unsigned char
+{
+  Title, Play, Pause, GameOver
+};
 
 Arduboy2 ab;
 Round rond;
+Player player;
+GameState gameState = GameState::Play;
+byte thrust = 2;
+String ops[5] = {"&", "|", "^", "<<", ">>"};
 
 void setup() 
 {
   ab.begin();
-  ab.initRandomSeed();
+  ab.initRandomSeed(); //will want to move to function that starts 1st level
   start();
 }
 
-//TODO: randomly pick 2 bytes of length 5
-//TODO: only need to do at start of each round
+//start new round
 void start()
 {
-  rond.create_problem(8, 9, "^"); 
+  byte a = rand() % 32;
+  byte b = rand() % 32;
+  int opsPos = rand() % 5;
+  rond.createProblem(a, b, ops[opsPos]); 
 }
 
 void drawProblem()
 {
   ab.setCursor(10,0);
-  ab.print(rond.get_problem());
+  ab.print(rond.getProblem());
   ab.setCursor(10, HEIGHT-8);
-  ab.print(rond.get_round_number());
+  ab.print(rond.getRoundNumber());
+}
+
+void drawPlayer()
+{
+  ab.setCursor(0, player.getY());
+  ab.print(player.getShip());
 }
 
 void draw()
 {
   drawProblem();
+  drawPlayer();
   ab.drawLine(0,8,WIDTH,8);
   ab.drawLine(0,HEIGHT-10, WIDTH, HEIGHT-10);
+}
+
+//check for wall and enemy collisions
+void collisionCheck()
+{
+  byte pos = player.getY();
+  if(pos < 8) player.setY(9);
+  else if(pos+8 > HEIGHT-10) player.setY(HEIGHT-17);
+}
+
+void gameLoop()
+{
+  draw();
+  if(ab.pressed(UP_BUTTON)) player.setY(player.getY() - thrust);
+  else if(ab.pressed(DOWN_BUTTON)) player.setY(player.getY() + thrust);
+  collisionCheck();
 }
 
 void loop() 
 {
   if(!(ab.nextFrame())) return;
   ab.clear();
-  draw();
+  ab.pollButtons();
+  switch(gameState)
+  {
+    case GameState::Title:
+      break;
+    case GameState::Play:
+      gameLoop();
+      break;
+    case GameState::Pause:
+      break;
+    case GameState::GameOver:
+      break;
+  }
   ab.display();
 }

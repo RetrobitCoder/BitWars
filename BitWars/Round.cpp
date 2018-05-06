@@ -2,12 +2,12 @@
 
 /*** Public ***/
 
-String Round::get_problem()
+String Round::getProblem()
 {
   return this->problem;
 }
 
-void Round::create_problem(byte a, byte b, String op)
+void Round::createProblem(byte a, byte b, String op)
 {
   if(op == "&")
   {
@@ -34,12 +34,12 @@ void Round::create_problem(byte a, byte b, String op)
   this->roundNum++;
 }
 
-bool Round::check_answer(byte guess)
+bool Round::checkAnswer(byte guess)
 {
   return (guess == this->answer);
 }
 
-long Round::get_round_number()
+long Round::getRoundNumber()
 {
   return this->roundNum;
 }
