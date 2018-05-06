@@ -1,6 +1,7 @@
 #include <Arduboy2.h>
 #include "Round.h"
 #include "Player.h"
+#include "Lazer.h"
 
 enum class GameState : unsigned char
 {
@@ -10,6 +11,7 @@ enum class GameState : unsigned char
 Arduboy2 ab;
 Round rond;
 Player player;
+Lazer* lazer = NULL;
 GameState gameState = GameState::Play;
 byte thrust = 2;
 String ops[5] = {"&", "|", "^", "<<", ">>"};
@@ -38,18 +40,32 @@ void drawProblem()
   ab.print(rond.getRoundNumber());
 }
 
+void drawLazer()
+{
+  ab.drawLine(lazer->getX1(), lazer->getY1(), lazer->getX2(), lazer->getY2());
+}
+
 void drawPlayer()
 {
   ab.setCursor(0, player.getY());
   ab.print(player.getShip());
 }
 
+void drawGameHUD()
+{
+  ab.drawLine(0,8,WIDTH,8); 
+  ab.drawLine(0,HEIGHT-10, WIDTH, HEIGHT-10);
+  ab.setCursor(WIDTH/2+16, HEIGHT-8);
+  if(lazer == NULL) ab.print("READY");
+  else ab.print("CHARGING");
+}
+
 void draw()
 {
+  drawGameHUD();
   drawProblem();
   drawPlayer();
-  ab.drawLine(0,8,WIDTH,8);
-  ab.drawLine(0,HEIGHT-10, WIDTH, HEIGHT-10);
+  if(lazer != NULL) drawLazer();
 }
 
 //check for wall and enemy collisions
@@ -58,6 +74,14 @@ void collisionCheck()
   byte pos = player.getY();
   if(pos < 8) player.setY(9);
   else if(pos+8 > HEIGHT-10) player.setY(HEIGHT-17);
+  if(lazer != NULL)
+  {
+    if(lazer->getX2() == WIDTH)
+    {
+      delete lazer;
+      lazer = NULL; 
+    }
+  }
 }
 
 void gameLoop()
@@ -66,6 +90,8 @@ void gameLoop()
   if(ab.pressed(UP_BUTTON)) player.setY(player.getY() - thrust);
   else if(ab.pressed(DOWN_BUTTON)) player.setY(player.getY() + thrust);
   else if(ab.justPressed(LEFT_BUTTON)) gameState = GameState::Pause;
+  else if(ab.justPressed(A_BUTTON)) if(lazer == NULL) lazer = new Lazer(0,player.getY() + 3);
+  if(lazer != NULL) lazer->moveLazer();
   collisionCheck();
 }
 
