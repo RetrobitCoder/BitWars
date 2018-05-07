@@ -62,6 +62,7 @@ void mainMenu()
 //start new round
 void start()
 {
+  if(rond.getRoundNumber() == 2147483647) gameState = GameState::GameOver;
   guess = "";
   byte a = rand() % 32;
   byte b = rand() % 32;
@@ -232,10 +233,16 @@ void pauseScreen()
 
 void gameOver()
 {
-  ab.setCursor(0,0);
+  ab.setCursor(WIDTH/2-24,0);
   ab.print("Game Over");
-  ab.setCursor(WIDTH/2, HEIGHT/2);
-  ab.print(rond.getAnswer());
+  ab.setCursor(WIDTH/2-36, 12);
+  ab.print("Round Reached");
+  ab.setCursor(WIDTH/2-36,24);
+  ab.print(rond.getRoundNumber());
+  ab.setCursor(WIDTH/2-36,36);
+  ab.print("Answer " + rond.getAnswer());
+  ab.setCursor(WIDTH/2-60,48);
+  ab.print("Made By RetrobitCoder");
   if(ab.justPressed(A_BUTTON)) gameState = GameState::Title;
 }
 
