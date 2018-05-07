@@ -5,13 +5,18 @@ Enemy::Enemy(byte xPos, byte yPos, byte num)
   this->x = xPos;
   this->y = yPos;
   this->value = num;
-  String v = value + "";
-  this->ship = "{" + v + "}";
+  this->ship = num;
+  this->ship = "{" + this->ship + "}";
 }
 
 byte Enemy::getX()
 {
   return this->x;
+}
+
+void Enemy::setX(byte pos)
+{
+  this->x = pos;
 }
 
 byte Enemy::getY()
@@ -24,34 +29,31 @@ byte Enemy::getValue()
   return this->value;
 }
 
+void Enemy::setValue(byte num)
+{
+  this->value = num;
+  this->ship = num;
+  this->ship = "{" + this->ship + "}";
+  this->dead = false;
+}
+
 String Enemy::getShip()
 {
   return this->ship;
 }
 
-Lazer* Enemy::getLazer()
-{
-  return this->lazer;
-}
-
 void Enemy::updateEnemy()
 {
-  this->x = this-x - movement;
+  this->x = this->x - this->movement;
 }
 
-void Enemy::updateLazer()
+bool Enemy::isDead()
 {
-  if(this->lazer != NULL) this->lazer->moveLazer();
+  return this->dead;
 }
 
-void Enemy::fireLazer(byte y1)
+void Enemy::died()
 {
-  if(y1 == this->y + 3) lazer = new Lazer(this->x, this->y + 3, -1);
-}
-
-void Enemy::deleteLazer()
-{
-  delete this->lazer;
-  this->lazer = NULL; 
+  this->dead = true;
 }
 

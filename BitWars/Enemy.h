@@ -11,29 +11,29 @@ class Enemy
     Enemy(byte xPos, byte yPos, byte num);
     //get x location
     byte getX();
+    //set x location
+    void setX(byte pos);
     //get y location
     byte getY();
     //get value
     byte getValue();
+    //set value
+    void setValue(byte num);
     //get ship
     String getShip();
-    //get lazer
-    Lazer* getLazer();
     //update enemy
     void updateEnemy();
-    //update lazer
-    void updateLazer();
-    //fire lazer
-    void fireLazer(byte y1);
-    //remove lazer
-    void deleteLazer();
+    //check if dead
+    bool isDead();
+    //dead
+    void died();
   private:
     byte x;
     byte y;
     byte movement = 2;
     byte value;
+    bool dead = false;
     String ship;
-    Lazer* lazer = NULL;  
 };
 
 #endif

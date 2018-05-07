@@ -4,6 +4,11 @@
 #include "Lazer.h"
 #include "Enemy.h"
 
+#define EX WIDTH-16
+#define EY1 14
+#define EY2 HEIGHT/2 - 4
+#define EY3 HEIGHT - 21
+
 enum class GameState : unsigned char
 {
   Title, Play, Pause, GameOver
@@ -13,16 +18,44 @@ Arduboy2 ab;
 Round rond;
 Player player;
 Lazer* lazer = NULL;
-//Enemy enemies[3] = {NULL, NULL, NULL};
-GameState gameState = GameState::Play;
+Enemy enemy1 = Enemy(EX,EY1,1);
+Enemy enemy2 = Enemy(EX,EY2,0);
+Enemy enemy3 = Enemy(EX,EY3,0);
+GameState gameState = GameState::Title;
 byte thrust = 2;
 String ops[5] = {"&", "|", "^", "<<", ">>"};
+String guess;
 
 void setup() 
 {
   ab.begin();
-  ab.initRandomSeed(); //will want to move to function that starts 1st level
-  start();
+  mainMenu();
+}
+
+void createEnemies()
+{
+  byte value1 = rand() % 2;
+  byte value2 = rand() % 2;
+  byte value3;
+  if(value1 == 1 && value2 == 1) value3 = 0;
+  else if(value1 == 0 && value2 == 0) value3 = 1;
+  else value3 = rand() % 2;
+  enemy1.setValue(value1);
+  enemy1.setX(EX);
+  enemy2.setValue(value2);
+  enemy2.setX(EX);
+  enemy3.setValue(value3);
+  enemy3.setX(EX);
+}
+
+void mainMenu()
+{
+  if(ab.justPressed(A_BUTTON))
+  {
+    gameState = GameState::Play;
+    ab.initRandomSeed();
+    start();
+  }
 }
 
 //start new round
@@ -32,6 +65,7 @@ void start()
   byte b = rand() % 32;
   int opsPos = rand() % 5;
   rond.createProblem(a, b, ops[opsPos]); 
+  createEnemies();
 }
 
 void drawProblem()
@@ -53,6 +87,16 @@ void drawPlayer()
   ab.print(player.getShip());
 }
 
+void drawEnemies()
+{
+  ab.setCursor(enemy1.getX(), enemy1.getY());
+  if(!enemy1.isDead()) ab.print(enemy1.getShip());
+  ab.setCursor(enemy2.getX(), enemy2.getY());
+  if(!enemy2.isDead()) ab.print(enemy2.getShip());
+  ab.setCursor(enemy3.getX(), enemy3.getY());
+  if(!enemy3.isDead()) ab.print(enemy3.getShip());
+}
+
 void drawGameHUD()
 {
   ab.drawLine(0,8,WIDTH,8); 
@@ -64,10 +108,21 @@ void drawGameHUD()
 
 void draw()
 {
-  drawGameHUD();
   drawProblem();
   drawPlayer();
+  drawEnemies();
+  drawGameHUD();
   if(lazer != NULL) drawLazer();
+}
+
+//keep track of guess
+void answer(byte value)
+{
+  guess = guess + value;
+  //if(length(guess) == 5)
+  //{
+  //  rond.checkAnswer(guess)
+  //}
 }
 
 //check for wall and enemy collisions
@@ -83,7 +138,48 @@ void collisionCheck()
       delete lazer;
       lazer = NULL; 
     }
+    if(lazer->getX2() >= enemy1.getX() && lazer->getX2() <= enemy1.getX() + 4)
+    {
+      if(lazer->getY2() >= enemy1.getY() && lazer->getY2() <= enemy1.getY() + 6)
+      {
+        delete lazer;
+        lazer = NULL;
+        enemy1.died(); 
+      }
+    }
+    if(lazer->getX2() >= enemy2.getX() && lazer->getX2() <= enemy2.getX() + 4)
+    {
+      if(lazer->getY2() >= enemy2.getY() && lazer->getY2() <= enemy2.getY() + 6)
+      {
+        delete lazer;
+        lazer = NULL;
+        enemy2.died(); 
+      }
+    }
+    if(lazer->getX2() >= enemy3.getX() && lazer->getX2() <= enemy3.getX() + 4)
+    {
+      if(lazer->getY2() >= enemy3.getY() && lazer->getY2() <= enemy3.getY() + 6)
+      {
+        delete lazer;
+        lazer = NULL;
+        enemy3.died(); 
+      }
+    }
   }
+  
+  if(enemy1.getX() < 2 || enemy2.getX() < 2 || enemy3.getX() < 2)
+  {
+    createEnemies();
+  }
+  
+}
+
+void updateEnemies()
+{
+  if(!enemy1.isDead()) enemy1.updateEnemy();
+  if(!enemy2.isDead()) enemy2.updateEnemy();
+  if(!enemy3.isDead()) enemy3.updateEnemy();
+  if(enemy1.isDead() && enemy2.isDead() && enemy3.isDead()) createEnemies();
 }
 
 void gameLoop()
@@ -95,6 +191,7 @@ void gameLoop()
   else if(ab.justPressed(A_BUTTON)) if(lazer == NULL) lazer = new Lazer(0,player.getY() + 3,1);
   if(lazer != NULL) lazer->moveLazer();
   collisionCheck();
+  if(ab.everyXFrames(5)) updateEnemies();
 }
 
 void pauseScreen()
@@ -114,6 +211,7 @@ void loop()
   switch(gameState)
   {
     case GameState::Title:
+      mainMenu();
       break;
     case GameState::Play:
       gameLoop();
