@@ -136,7 +136,17 @@ void enemyCollisionCheck()
   if(x >= enemy1.getX() && x <= enemy1.getX() + 12)
   {
     if(y >= enemy1.getY() && y <= enemy1.getY() + 6) gameState = GameState::GameOver;
-    else if(y + 3 >= enemy1.getY() && y + 3 <= enemy1.getY() + 6) gameState = GameState::GameOver;
+    else if(y + 6 >= enemy1.getY() && y + 6 <= enemy1.getY() + 6) gameState = GameState::GameOver;
+  }
+  if(x >= enemy2.getX() && x <= enemy2.getX() + 12)
+  {
+    if(y >= enemy2.getY() && y <= enemy2.getY() + 6) gameState = GameState::GameOver;
+    else if(y + 6 >= enemy2.getY() && y + 6 <= enemy2.getY() + 6) gameState = GameState::GameOver;
+  }
+  if(x >= enemy3.getX() && x <= enemy3.getX() + 12)
+  {
+    if(y >= enemy3.getY() && y <= enemy3.getY() + 6) gameState = GameState::GameOver;
+    else if(y + 6 >= enemy3.getY() && y + 6 <= enemy3.getY() + 6) gameState = GameState::GameOver;
   }
 }
 
