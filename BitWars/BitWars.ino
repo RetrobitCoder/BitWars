@@ -54,6 +54,7 @@ void mainMenu()
   {
     gameState = GameState::Play;
     ab.initRandomSeed();
+    rond.resetRound();
     start();
   }
 }
@@ -61,6 +62,7 @@ void mainMenu()
 //start new round
 void start()
 {
+  guess = "";
   byte a = rand() % 32;
   byte b = rand() % 32;
   int opsPos = rand() % 5;
@@ -71,7 +73,7 @@ void start()
 void drawProblem()
 {
   ab.setCursor(10,0);
-  ab.print(rond.getProblem());
+  ab.print(rond.getProblem()+guess);
   ab.setCursor(10, HEIGHT-8);
   ab.print(rond.getRoundNumber());
 }
@@ -119,10 +121,23 @@ void draw()
 void answer(byte value)
 {
   guess = guess + value;
-  //if(length(guess) == 5)
-  //{
-  //  rond.checkAnswer(guess)
-  //}
+  if(guess.length() >= 5)
+  {
+    if(rond.checkAnswer(guess)) start();
+    else gameState = GameState::GameOver;
+  }
+}
+
+void enemyCollisionCheck()
+{
+  byte x = 12;
+  byte y = player.getY();
+
+  if(x >= enemy1.getX() && x <= enemy1.getX() + 12)
+  {
+    if(y >= enemy1.getY() && y <= enemy1.getY() + 6) gameState = GameState::GameOver;
+    else if(y + 3 >= enemy1.getY() && y + 3 <= enemy1.getY() + 6) gameState = GameState::GameOver;
+  }
 }
 
 //check for wall and enemy collisions
@@ -145,6 +160,7 @@ void collisionCheck()
         delete lazer;
         lazer = NULL;
         enemy1.died(); 
+        answer(enemy1.getValue());
       }
     }
     if(lazer->getX2() >= enemy2.getX() && lazer->getX2() <= enemy2.getX() + 4)
@@ -153,7 +169,8 @@ void collisionCheck()
       {
         delete lazer;
         lazer = NULL;
-        enemy2.died(); 
+        enemy2.died();
+        answer(enemy2.getValue()); 
       }
     }
     if(lazer->getX2() >= enemy3.getX() && lazer->getX2() <= enemy3.getX() + 4)
@@ -162,16 +179,16 @@ void collisionCheck()
       {
         delete lazer;
         lazer = NULL;
-        enemy3.died(); 
+        enemy3.died();
+        answer(enemy3.getValue()); 
       }
     }
   }
-  
   if(enemy1.getX() < 2 || enemy2.getX() < 2 || enemy3.getX() < 2)
   {
     createEnemies();
   }
-  
+  enemyCollisionCheck();
 }
 
 void updateEnemies()
@@ -203,6 +220,15 @@ void pauseScreen()
   if(ab.justPressed(LEFT_BUTTON)) gameState = GameState::Play;
 }
 
+void gameOver()
+{
+  ab.setCursor(0,0);
+  ab.print("Game Over");
+  ab.setCursor(WIDTH/2, HEIGHT/2);
+  ab.print(rond.getAnswer());
+  if(ab.justPressed(A_BUTTON)) gameState = GameState::Title;
+}
+
 void loop() 
 {
   if(!(ab.nextFrame())) return;
@@ -220,6 +246,7 @@ void loop()
       pauseScreen();
       break;
     case GameState::GameOver:
+      gameOver();
       break;
   }
   ab.display();

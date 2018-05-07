@@ -34,9 +34,9 @@ void Round::createProblem(byte a, byte b, String op)
   this->roundNum++;
 }
 
-bool Round::checkAnswer(byte guess)
+bool Round::checkAnswer(String guess)
 {
-  return (guess == this->answer);
+  return (guess == convert(this->answer));
 }
 
 long Round::getRoundNumber()
@@ -44,6 +44,15 @@ long Round::getRoundNumber()
   return this->roundNum;
 }
 
+String Round::getAnswer()
+{
+  return convert(this->answer);
+}
+
+void Round::resetRound()
+{
+  this->roundNum = 0;
+}
 /*** Private ***/
 
 String Round::convert(byte num)
