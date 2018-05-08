@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Lazer.h"
 #include "Enemy.h"
+#include "Bitmaps.h"
 
 #define EX WIDTH-16
 #define EY1 14
@@ -50,6 +51,9 @@ void createEnemies()
 
 void mainMenu()
 {
+  ab.drawBitmap(0,0, BitWars, WIDTH, HEIGHT, WHITE);
+  ab.setCursor(WIDTH/2-18, HEIGHT-8);
+  ab.print("Press A");
   if(ab.justPressed(A_BUTTON))
   {
     gameState = GameState::Play;
