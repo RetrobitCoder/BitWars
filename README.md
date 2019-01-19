@@ -22,9 +22,9 @@ If you get the answer wrong, the game over screen will give you the correct answ
 
 10101 & 01101 = 00101
 
-{ |: For each bit in the first operator and the corresponding bit in the second operator, one of them must be 1.
+{ \|: For each bit in the first operator and the corresponding bit in the second operator, one of them must be 1.
 
-10101 | 01101 = 11101
+10101 \| 01101 = 11101
 
 { ^: For each bit in the first operator and the corresponding bit in the second operator, one must be 1 and the other must be 0.
 
