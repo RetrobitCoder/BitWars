@@ -29,31 +29,26 @@ If you get the answer wrong, the game over screen will give you the correct answ
 
 <b> Operations </b>
 
-- &: For each bit in the first operator and the corresponding bit in the second operator must both be 1.
-
-10101 & 01101 = 00101
+- \&: For each bit in the first operator and the corresponding bit in the second operator must both be 1.
+  - 10101 & 01101 = 00101
 
 - \|: For each bit in the first operator and the corresponding bit in the second operator, one of them must be 1.
-
-10101 \| 01101 = 11101
+   - 10101 \| 01101 = 11101
 
 - ^: For each bit in the first operator and the corresponding bit in the second operator, one must be 1 and the other must be 0.
+  - 10101 ^ 01101 = 11000
 
-10101 ^ 01101 = 11000
+  Convert binary to base 10: Each position is 2^[i] where i is the position number. Position starts from the right at 0.
 
-Convert binary to base 10: Each position is 2^[i] where i is the position number. Position starts from the right at 0.
+  You take the number in the position (1/0) and times it by 2^[i].
 
-You take the number in the position (1/0) and times it by 2^[i].
-
-11111 = 1 * 2^4 + 1 * 2^3 + 1 * 2^2 + 1 * 2^1 + 1 * 2^0 = 31
+  11111 = 1 * 2^4 + 1 * 2^3 + 1 * 2^2 + 1 * 2^1 + 1 * 2^0 = 31
 
 - <<: Shift each bit left in the first operator by the value of the second operator. This is easier by converting the second operator to a base 10 value. Zeros are inserted from the right.
+  - 00001 << 00010 (00001 << 2) = 00100
 
-00001 << 00010 (00001 << 2) = 00100
-
-- >>: Shift each bit right in the first operator by the value of the second operator.This is easier by converting the second operator to a base 10 value. Zeros are inserted from the left.
-
-00010 >> 00001 (00010 >> 1) = 00001
+- \>>: Shift each bit right in the first operator by the value of the second operator.This is easier by converting the second operator to a base 10 value. Zeros are inserted from the left.
+  - 00010 >> 00001 (00010 >> 1) = 00001
 
 ## Controls
 ---
