@@ -1,5 +1,14 @@
 # BitWars
-Arduboy Game BitWars
+![banner image](/images/banner.jpg)
+
+Banner image by: LENZ
+
+LENZ's work can be found at:
+
+[LENZ's Instagram](https://www.instagram.com/lenzartz/)
+
+## Story
+---
 
 You are part of the resistence.
 
@@ -9,7 +18,9 @@ The goal of the game is to last as long as you can and solve the problem in the 
 
 If you don't solve the problem correctly, or get hit by one of the enemy fighters it is a game over and you will have to start over from the beginning.
 
-# How To Play
+## How To Play
+___
+
 You must solve the binary operations problem in the top left of the screen, by shooting your lazer at the enemy fighter with the right bit for building the answer.
 The answer is built from right to left and position matters for the answer to be correct.
 00001 is not the same as 10000.
@@ -44,7 +55,8 @@ You take the number in the position (1/0) and times it by 2^[i].
 
 00010 >> 00001 (00010 >> 1) = 00001
 
-<b> Controls </b>
+## Controls
+---
 
 The GRT-OE can move up and down, and fire a lazer with the A button.
 
@@ -52,7 +64,8 @@ Press A button on the title screen to start, and on the game over screen to get 
 
 Pause/Unpause the game by hitting the Left button.
 
-# Screen
+## Screen
+---
 
 Top left displays the problem you have to solve.
 
@@ -61,3 +74,18 @@ Top right displays your answer so far.
 Bottom left displays the round number.
 
 Bottom right displays if your lazer is ready to fire again.
+
+## How to Download
+---
+### .arduboy
+Using an Arduboy game uploader, upload the .arduboy file to your Arduboy.
+
+### .hex
+Using an Arduboy game uploader that supports .hex files, or any other tools that can upload .hex files to the Arduboy, upload the .hex file to your Arduboy.
+ 
+### source
+Rename file from BitWars-master to BitWars then upload to Arduboy using the Arduino IDE.
+
+## Game License
+---
+[MIT](https://opensource.org/licenses/MIT)
