@@ -7,6 +7,12 @@ LENZ's work can be found at:
 
 [LENZ's Instagram](https://www.instagram.com/lenzartz/)
 
+Developer: Zachariah Falgout (RetrobitCoder)
+
+Game Art: Zachariah Falgout (RetrobitCoder)
+
+Arduboy Library: Arduboy2
+
 ## Story
 ---
 
