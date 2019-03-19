@@ -16,6 +16,7 @@ enum class GameState : unsigned char
 };
 
 Arduboy2 ab;
+Sprites sprite;
 Round rond;
 Player player;
 Lazer* lazer = NULL;
@@ -30,6 +31,10 @@ String guess;
 void setup() 
 {
   ab.begin();
+  ab.clear();
+  sprite.drawSelfMasked(0,0, ArduboyTitle_RetrobitCoder, 0);
+  ab.display();
+  ab.delayShort(3000);
   mainMenu();
 }
 
