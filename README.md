@@ -13,6 +13,14 @@ Game Art: Zachariah Falgout (RetrobitCoder)
 
 Arduboy Library: Arduboy2
 
+Play the game in [browser](https://felipemanga.github.io/ProjectABE/?url=https://github.com/RetrobitCoder/BitWars/blob/master/BitWars/BitWars.ino.leonardo.hex).
+
+You will want to click build and then the step(F7) arrow.
+
+![screenshot0](/images/screenshot0.png)
+![screenshot1](/images/screenshot1.png)
+
+
 ## Story
 ---
 
